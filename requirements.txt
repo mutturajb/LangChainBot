@@ -1,0 +1,30 @@
+# Core backend
+fastapi
+uvicorn
+python-dotenv
+requests
+
+# LangChain & dependencies
+langchain
+langchain-openai
+langchain-community
+
+# File parsing
+unstructured
+openpyxl
+python-pptx
+python-docx
+pdfminer.six
+
+# Chroma vector store
+chromadb
+
+# For Confluence
+atlassian-python-api
+
+# Optional for extended file support
+beautifulsoup4
+lxml
+
+# If using torch-based embeddings in future
+# torch

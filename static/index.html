@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hello Mutturaj's Personal AI Bot, How May I Help You Today ?</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 30px;
+          background: #f7f7f7;
+        }
+        .chat-container {
+          max-width: 600px;
+          margin: auto;
+          background: white;
+          border-radius: 10px;
+          padding: 20px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .chat-box {
+          height: 300px;
+          overflow-y: auto;
+          border: 1px solid #ddd;
+          padding: 10px;
+          margin-bottom: 15px;
+          background: #fafafa;
+        }
+        .chat-bubble {
+          padding: 10px;
+          border-radius: 10px;
+          margin: 5px 0;
+          max-width: 80%;
+        }
+        .user {
+          background: #cce5ff;
+          align-self: flex-end;
+          text-align: right;
+        }
+        .bot {
+          background: #d4edda;
+          align-self: flex-start;
+        }
+        .chat-form {
+          display: flex;
+          gap: 10px;
+        }
+        input[type="text"] {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+        button {
+          padding: 10px 15px;
+          border: none;
+          background: #007bff;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <h2>🧠 Mutturaj's Personal AI Bot</h2>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form" class="chat-form">
+        <input type="text" id="user-input" placeholder="Ask Questions about Mutturaj's Overall Career Details." required />
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script>
+    const chatBox = document.getElementById("chat-box");
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+    const baseURL = "http://127.0.0.1:3000/run-rag?query=";
+
+    function appendMessage(text, sender) {
+      const bubble = document.createElement("div");
+      bubble.classList.add("chat-bubble", sender);
+      bubble.innerText = text;
+      chatBox.appendChild(bubble);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const question = userInput.value.trim();
+      if (!question) return;
+
+      appendMessage(question, "user");
+      userInput.value = "";
+
+      try {
+        const response = await fetch(baseURL + encodeURIComponent(question));
+        const data = await response.json();
+        appendMessage(data.answer || "No answer received.", "bot");
+      } catch (error) {
+        appendMessage("⚠️ Error connecting to the server.", "bot");
+      }
+    });
+</script>
+</body>
+</html>
